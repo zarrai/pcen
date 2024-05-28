@@ -27,12 +27,20 @@ add_action('wp_ajax_nopriv_pcen_check_post_title', 'pcen_check_post_title');
 function pcen_check_post_title() {
     $titre = isset($_POST['titre']) ? sanitize_text_field($_POST['titre']) : '';
 
-    // Check if post with same title exists
-    $existing_post = get_page_by_title($titre, OBJECT, 'post');
-    if ($existing_post) {
+   // Check if post with the same title exists (excluding trashed posts)
+   $args = array(
+    'post_type' => 'post',
+    'post_status' => 'any', // includes drafts, published, etc. but not trash
+    'title' => $titre,
+    'fields' => 'ids',
+    'posts_per_page' => 1);
+    
+    $query = new WP_Query($args);
+
+    if ($query->have_posts()) {
         wp_send_json_error(array('message' => 'Un post avec le même titre existe déjà.'));
     } else {
-        wp_send_json_success();
+        wp_send_json_success(array('message' => 'Pas de post avec le même titre.'));
     }
 }
 
