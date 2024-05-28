@@ -13,7 +13,8 @@ jQuery(document).ready(function($) {
             },
             success: function(response) {
                 if (response.success) {
-                    $('#pcen-error-message').html('').hide();
+                    $('#pcen-error-message').css('color', 'green');
+                    $('#pcen-error-message').html(response.data.message).show();
                     $('#creer_post_form').unbind('submit').submit();
                 } else {
                     $('#pcen-error-message').html(response.data.message).show();
