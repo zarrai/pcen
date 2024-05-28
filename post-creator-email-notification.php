@@ -12,20 +12,36 @@ function pcen_enqueue_styles() {
     wp_enqueue_style('pcen-style', plugins_url('style.css', __FILE__));
 }
 
+// Enqueue jQuery
+function pcen_enqueue_jquery() {
+    wp_enqueue_script('jquery');
+}
+add_action('wp_enqueue_scripts', 'pcen_enqueue_jquery');
+
 // Include form template
 include(plugin_dir_path(__FILE__) . 'form-template.php');
 
+// Backend logic for AJAX title check
+add_action('wp_ajax_pcen_check_post_title', 'pcen_check_post_title');
+add_action('wp_ajax_nopriv_pcen_check_post_title', 'pcen_check_post_title');
+function pcen_check_post_title() {
+    $titre = isset($_POST['titre']) ? sanitize_text_field($_POST['titre']) : '';
+
+    // Check if post with same title exists
+    $existing_post = get_page_by_title($titre, OBJECT, 'post');
+    if ($existing_post) {
+        wp_send_json_error(array('message' => 'Un post avec le même titre existe déjà.'));
+    } else {
+        wp_send_json_success(array('message' => 'Pas de post avec le même titre.'));
+    }
+}
+
+// Backend logic for form submission
 add_action('init', 'pcen_traiter_formulaire_post');
 function pcen_traiter_formulaire_post() {
     if(isset($_POST['titre']) && isset($_POST['contenu'])) {
         $titre = sanitize_text_field($_POST['titre']);
         $contenu = wp_kses_post($_POST['contenu']);
-
-        // Vérifier si le titre existe déjà
-        $existing_post = get_page_by_title($titre, OBJECT, 'post');
-        if($existing_post) {
-            wp_die('Un post avec le même titre existe déjà.');
-        }
 
         // Créer le post non publié
         $post_data = array(
