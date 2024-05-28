@@ -1,32 +1,28 @@
-/* CSS styles for the form */
+/* Add your custom styles here */
 #creer_post_form {
-    max-width: 400px;
+    max-width: 600px;
     margin: 0 auto;
-    padding: 20px;
-    border: 1px solid #ccc;
-    border-radius: 5px;
 }
 
-label {
+#creer_post_form label {
     font-weight: bold;
 }
 
-input[type="text"],
-textarea {
+#creer_post_form input[type="text"],
+#creer_post_form textarea {
     width: 100%;
-    padding: 8px;
-    margin-bottom: 10px;
+    padding: 10px;
+    margin: 5px 0;
 }
 
-input[type="submit"] {
-    background-color: #0073e6;
-    color: #fff;
+#creer_post_form input[type="submit"] {
+    background-color: #0073aa;
+    color: white;
     border: none;
     padding: 10px 20px;
-    border-radius: 5px;
     cursor: pointer;
 }
 
-input[type="submit"]:hover {
-    background-color: #0059b3;
+#creer_post_form input[type="submit"]:hover {
+    background-color: #005a87;
 }
