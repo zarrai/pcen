@@ -8,8 +8,8 @@
 
 // Enqueue CSS and JS files for the form
 function pcen_enqueue_assets() {
-    wp_enqueue_style('pcen-style', plugins_url('style.css', __FILE__));
-    wp_enqueue_script('pcen-script', plugins_url('script.js', __FILE__), array('jquery'), null, true);
+    wp_enqueue_style('pcen-style', plugins_url('assets/css/style.css', __FILE__));
+    wp_enqueue_script('pcen-script', plugins_url('assets/js/script.js', __FILE__), array('jquery'), null, true);
 
     // Localize script to pass the admin-ajax URL to JavaScript
     wp_localize_script('pcen-script', 'pcen_ajax', array(
